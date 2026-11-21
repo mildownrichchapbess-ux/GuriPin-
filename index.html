@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="so"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>GuriPin</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f7f8;color:#172033}.splash{position:fixed;inset:0;z-index:10;background:linear-gradient(#d9f0ff,#fff 65%,#087b37);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;animation:hide 0s 5s forwards}.logo{width:112px;height:112px;border-radius:50%;background:#087bdf;color:white;display:grid;place-items:center;font-size:62px;border:8px solid #d7edff;box-shadow:0 5px 18px #789}.brand{font-size:46px;font-weight:800;color:#087b37;margin:12px}.tag{font-size:18px;font-weight:bold;max-width:280px}.flag{position:absolute;bottom:0;height:75px;width:100%;background:linear-gradient(#0865c8 0 65%,#078d3c 65%);color:white;font-size:40px;display:grid;place-items:center}@keyframes hide{to{visibility:hidden;opacity:0;pointer-events:none}}
+header{height:62px;background:#078a3d;color:white;display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-size:30px;font-weight:bold}header button{background:none;border:0;color:white;font-size:28px}#map{height:calc(100vh - 140px);width:100%;background:#dce6df}.searchbar{position:absolute;bottom:12px;left:5%;width:90%;height:58px;background:white;border-radius:32px;box-shadow:0 2px 12px #7778;display:flex;align-items:center;padding:0 18px;z-index:500}.searchbar input{border:0;outline:0;font-size:17px;width:100%;padding:12px}.searchbar button{border:0;background:white;font-size:22px}.panel{position:absolute;top:62px;left:0;background:white;width:220px;z-index:700;box-shadow:0 5px 18px #5556;border-radius:0 0 14px 0;display:none}.panel div{padding:17px;border-bottom:1px solid #eee;font-size:16px}.result{display:none;position:absolute;bottom:0;left:0;right:0;background:white;border-radius:22px 22px 0 0;padding:18px;z-index:600;box-shadow:0 -3px 15px #5554}.primary{background:#0865ce;color:white;border:0;border-radius:12px;padding:14px 20px;font-size:16px;width:100%;margin-top:10px}.hint{font-size:12px;color:#526071;margin-top:6px}
+</style></head><body>
+<div class="splash"><div class="logo">⌂</div><div class="brand">GuriPin</div><div class="tag">Smart House Address &amp; Navigation – Somalia</div><p>◯<br>Loading... 5s</p><div class="flag">★</div></div>
+<header><button onclick="toggleMenu()">☰</button><span>GuriPin</span><button onclick="focusSearch()">⌕</button></header>
+<div class="panel" id="menu"><div>🌐 &nbsp; Languages</div><div>⚙ &nbsp; Settings</div><div>● &nbsp; Feedback</div><div>ⓘ &nbsp; About</div></div>
+<div id="map"></div>
+<div class="searchbar" id="searchbar"><button onclick="searchHouse()">⌕</button><input id="q" placeholder="Raadi guri..."><button onclick="locateMe()">◎</button></div>
+<div class="result" id="result"><b id="resTitle">Natiijoyinka</b><p id="resText">Guri lama helin.</p><button class="primary" onclick="hideResult()">Xir</button><div class="hint">Noocan tijaabada ah weli kuma xirna database-ka GuriPin.</div></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const map=L.map('map').setView([2.0469,45.3182],13);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
+let userMarker=null;
+function toggleMenu(){let m=document.getElementById('menu');m.style.display=m.style.display==='block'?'none':'block'}
+function focusSearch(){document.getElementById('q').focus()}
+function locateMe(){if(!navigator.geolocation){alert('GPS lama heli karo');return}navigator.geolocation.getCurrentPosition(p=>{let ll=[p.coords.latitude,p.coords.longitude];map.setView(ll,16);if(userMarker)map.removeLayer(userMarker);userMarker=L.circleMarker(ll,{radius:9,color:'#fff',weight:3,fillColor:'#087bdf',fillOpacity:1}).addTo(map).bindPopup('Adiga');},()=>alert('Fadlan oggolow GPS-ka telefoonkaaga.'))}
+function searchHouse(){let q=document.getElementById('q').value.trim();document.getElementById('resTitle').innerText='Natiijoyinka';document.getElementById('resText').innerText=q?'Guri lama helin: '+q:'Fadlan geli Degmo iyo Guri-Num.';document.getElementById('result').style.display='block'}
+function hideResult(){document.getElementById('result').style.display='none'}
+</script></body></html>
